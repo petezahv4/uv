@@ -71,3 +71,14 @@ function shutdown() {
     bareServer.close();
     process.exit(0);
 }
+
+server.on('listening', () => {
+    if (
+		process.env.CODESPACE_NAME &&
+		process.env.GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN
+	) {
+		console.log(
+			`  ${chalk.bold(host('Github Codespaces:'))}           https://${process.env.CODESPACE_NAME}-${address.port === 80 ? '' : address.port}.${process.env.GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}`
+		);
+	}
+});
